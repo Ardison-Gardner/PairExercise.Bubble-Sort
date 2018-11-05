@@ -1,33 +1,37 @@
-function split (wholeArray) {
-  if (wholeArray.length === 1) {
-    return wholeArray;
+function split (array) {
+  if (array.length === 1) {
+    return array;
   }
-  const mid = Math.floor(wholeArray.length / 2)
-  const firstHalf = wholeArray.slice(0, mid)
-  const secondHalf = wholeArray.slice(mid)
-  return [firstHalf, secondHalf];
+  const mid = Math.floor(array.length / 2)
+  const left = array.slice(0, mid)
+  const right = array.slice(mid)
+  return [left, right];
 }
 
-function merge (first, second) {
-  let finalArr = [];
-  while (first.length && second.length) {
-    if (first[0] <= second[0]) {
-      finalArr.push(first.shift())
+function merge (left, right) {
+  let final = [];
+  while (left.length && right.length) {
+    if (left[0] <= right[0]) {
+      final.push(left.shift())
     } else {
-      finalArr.push(second.shift())
+      final.push(right.shift())
     }
-    while (left.length) {
-      finalArr.push(first.shift())
-    }
-    while (second.length) {
-      finalArr.push(second.shift())
-    }
-    console.log(finalArr)
-    return finalArr;
   }
+  while (left.length) {
+    final.push(left.shift())
+  }
+  while (right.length) {
+    final.push(right.shift())
+  }
+  return final;
 }
 
 function mergeSort(array) {
   /* your code here */
-  return merge(split(firstHalf), split(secondHalf))
+  if (array.length < 2) {
+    return array;
+  }
+  let left = split(array)[0]
+  let right = split(array)[1]
+  return merge(mergeSort(left), mergeSort(right))
 }
